@@ -108,6 +108,8 @@ class SearchModel(object):
                 continue
             if value:
                 search_field = self.get_search_field(key)
+                if not search_field:
+                    continue
                 logger.debug('search_field: %s' % search_field)
                 search_dict.setdefault(search_field.get_model(), {
                     'searches': [],
