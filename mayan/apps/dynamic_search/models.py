@@ -36,7 +36,8 @@ class RecentSearch(models.Model):
             for key, value in query_dict.items():
                 if key != 'page':
                     search_field = document_search.get_search_field(key)
-                    advanced_string.append(u'%s: %s' % (search_field.label, smart_unicode(' '.join(value))))
+                    if search_field is not None:
+                        advanced_string.append(u'%s: %s' % (search_field.label, smart_unicode(' '.join(value))))
 
             display_string = u', '.join(advanced_string)
         else:

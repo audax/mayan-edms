@@ -38,7 +38,7 @@ class SearchModel(object):
         return self.search_fields.values()
 
     def get_search_field(self, full_name):
-        return self.search_fields[full_name]
+        return self.search_fields.get(full_name, None)
 
     def get_fields_simple_list(self):
         """
