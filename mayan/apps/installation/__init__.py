@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import unicode_literals
 
 from django.db.utils import DatabaseError
 from django.dispatch import receiver
@@ -21,42 +21,28 @@ def create_installation_instance(sender, **kwargs):
         Installation.objects.get_or_create()
 
 
-def check_first_run():
-    try:
-        details = Installation.objects.get()
-    except DatabaseError:
-        # Avoid database errors when the app tables haven't been created yet
-        pass
-    else:
-        if details.is_first_run:
-            details.submit()
-
-
 register_model_list_columns(PropertyNamespace, [
     {
-        'name': _(u'label'),
+        'name': _('Label'),
         'attribute': 'label'
     },
     {
-        'name': _(u'items'),
+        'name': _('Items'),
         'attribute': encapsulate(lambda entry: len(entry.get_properties()))
     }
 ])
 
 register_model_list_columns(Property, [
     {
-        'name': _(u'label'),
+        'name': _('Label'),
         'attribute': 'label'
     },
     {
-        'name': _(u'value'),
+        'name': _('Value'),
         'attribute': 'value'
     }
 ])
 
 register_links(PropertyNamespace, [link_namespace_details])
-register_links(['namespace_list', PropertyNamespace], [link_namespace_list], menu_name='secondary_menu')
-
+register_links(['installation:namespace_list', PropertyNamespace], [link_namespace_list], menu_name='secondary_menu')
 register_tool(link_menu_link)
-
-check_first_run()
